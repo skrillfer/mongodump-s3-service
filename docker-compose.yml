@@ -1,11 +1,17 @@
 version: "3.4"
 services:
-  bck_service:
+  mongodump-s3-service:
+    container_name: mongodump-s3-service
+    image: 'skrillfer/mongodump-s3-service:latest'
     env_file:
       - .env
     build: .
     volumes:
       - backup_vol:/usr/files
-
+    networks:
+      - mongo-network
 volumes:
   backup_vol:
+networks:
+  mongo-network:
+    external: true
