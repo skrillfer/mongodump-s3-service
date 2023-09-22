@@ -25,7 +25,7 @@ path=/usr/files/
 filename=$(echo mongodump_$dateString.zip)
 echo "Creating" $path$filename
 
-args=("--host" $MONGO_HOST "--port" $MONGO_PORT "--archive=$path$filename" "--gzip")
+args=("--host"=$MONGO_HOST "--port"=$MONGO_PORT "--archive=$path$filename" "--gzip --tlsInsecure")
 
 if [[ $AUTH_DB == "" ]]
 then
@@ -53,8 +53,8 @@ then
 fi
 
 echo "Running mongodump and s3 push"
-# echo ${args[@]}
-# echo ${awsArgs[@]}
+echo ${args[@]}
+echo ${awsArgs[@]}
 
 if mongodump ${args[@]} && aws s3 cp ${awsArgs[@]} ; then
     echo "Backup succeeded"
